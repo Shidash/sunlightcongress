@@ -78,13 +78,82 @@ class SunlightCongress
 
   # Get all events (hearings, votes, bills, amendments, floor updates) for a congressperson and output JSON
   def get_events(id)
+    # Get votes
     votes = JSON.parse(get_votes(id))
-    amendments = JSON.parse(get_amendments(id))
-    bills = JSON.parse(get_bills(id))
-    updates = JSON.parse(get_updates(id))
-    hearings = JSON.parse(get_hearings_json(get_committees(id)))
+    votearray = Array.new
+    votes.each do |v|
+      savehash = Hash.new
+      vhash = Hash[*v.flatten]
 
-    combinedata = votes + amendments + bills + updates + hearings
+      savehash["start time"] = vhash["voted_at"].to_s
+      savehash["end time"] = nil
+      savehash["headline"] = "Vote(" + id + "): " + vhash["question"].to_s
+      savehash["text"] = "roll_type: " + vhash["roll_type"].to_s + " result: " + vhash["result"].to_s + " vote_type: " + vhash["vote_type"].to_s + " url: " + vhash["url"].to_s
+
+      votearray.push(savehash)
+    end
+    
+    # Get amendments
+    amendments = JSON.parse(get_amendments(id))
+    amendmentarray = Array.new
+    amendments.each do |a|
+      savehash = Hash.new
+      ahash = Hash[*a.flatten]
+      
+      savehash["start time"] = ahash["introduced_on"].to_s
+      savehash["end time"] = ahash["last_action_at"].to_s
+      savehash["headline"] = "Amendment(" + id + "): " + ahash["purpose"].to_s
+      savehash["text"] = "description: " + ahash["description"].to_s + " amends_bill_id: " + ahash["amends_bill_id"].to_s
+
+      amendmentarray.push(savehash)
+    end
+
+    # Get bills
+    bills = JSON.parse(get_bills(id))
+    billarray = Array.new
+    bills.each do |b|
+      savehash = Hash.new
+      bhash = Hash[*b.flatten]
+
+      savehash["start time"] = bhash["introduced_on"].to_s
+      savehash["end time"] = bhash["last_vote_at"].to_s
+      savehash["headline"] = "Bill(" + id + "): " + bhash["short_title"].to_s
+      savehash["text"] = "official_title: " + bhash["official_title"].to_s + " bill_id: " + bhash["bill_id"].to_s
+
+      billarray.push(savehash)
+    end
+    
+    # Get updates
+    updates = JSON.parse(get_updates(id))
+    updatearray = Array.new
+    updates.each do |u|
+      savehash = Hash.new
+      uhash = Hash[*u.flatten]
+
+      savehash["start time"] = uhash["timestamp"].to_s
+      savehash["end time"] = nil
+      savehash["headline"] = "Update(" + id + ")"
+      savehash["text"] = "update: " + uhash["update"].to_s
+
+      updatearray.push(savehash)
+    end
+    
+    # Get hearings
+    hearings = JSON.parse(get_hearings_json(get_committees(id)))
+    hearingarray = Array.new
+    hearings.each do |h|
+      savehash = Hash.new
+      hhash = Hash[*h.flatten]
+      
+      savehash["start time"] = hhash["occurs_at"].to_s
+      savehash["end time"] = nil
+      savehash["headline"] = "Committee Hearing(" + id + "): " + hhash["description"].to_s
+      savehash["text"] = "committee_id: " + hhash["committee_id"].to_s + " url: " + hhash["url"].to_s
+        
+      hearingarray.push(savehash)
+    end
+
+    combinedata = votearray + amendmentarray + billarray + updatearray + hearingarray
     combinedata.to_json
   end
 end

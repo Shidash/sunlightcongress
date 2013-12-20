@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'sunlightcongress'
-  s.version     = '0.0.5'
-  s.date        = '2013-12-16'
+  s.version     = '0.0.6'
+  s.date        = '2013-12-20'
   s.summary     = "Wrapper for Sunlight Foundation's new congress API"
   s.description = "Access to Sunlight Foundation's congress data."
   s.authors     = ["M. C. McGrath"]
