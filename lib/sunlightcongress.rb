@@ -22,35 +22,40 @@ class SunlightCongress
   end
 
   # Get all votes by particular congressperson
-  def get_votes(id)
+  def get_votes(name)
+    id = legislator_id(name)
     options = {:query => {:apikey => @apikey} }
     data = HTTParty.get("http://congress.api.sunlightfoundation.com/votes?voter_ids." + id.to_s + "__exists=true", options)["results"]
     return data.to_json
   end
 
   # Get all amendments sponsored by a congressperson
-  def get_amendments(id)
+  def get_amendments(name)
+    id = legislator_id(name)
     options = {:query => {:apikey => @apikey} }
     data = HTTParty.get("http://congress.api.sunlightfoundation.com/amendments?sponsor_type=person&sponsor_id=" + id.to_s , options)["results"]
     return data.to_json
   end
 
   # Get all bills sponsored by a congressperson
-  def get_bills(id)
+  def get_bills(name)
+    id = legislator_id(name)
     options = {:query => {:apikey => @apikey} }
     data = HTTParty.get("http://congress.api.sunlightfoundation.com/bills?sponsor_id=" + id.to_s , options)["results"]
     return data.to_json
   end
 
   # Get all floor updates that mention a congressperson
-  def get_updates(id)
+  def get_updates(name)
+    id = legislator_id(name)
     options = {:query => {:apikey => @apikey} }
     data = HTTParty.get("http://congress.api.sunlightfoundation.com/floor_updates?legislator_ids=" + id.to_s , options)["results"]
     return data.to_json
   end
 
   # Get all committees a congressperson is on
-  def get_committees(id)
+  def get_committees(name)
+    id = legislator_id(name)
     options = {:query => {:apikey => @apikey} }
     data = HTTParty.get("http://congress.api.sunlightfoundation.com/committees?member_ids=" + id.to_s , options)["results"]
     return data.to_json
@@ -77,7 +82,9 @@ class SunlightCongress
   end
 
   # Get all events (hearings, votes, bills, amendments, floor updates) for a congressperson and output JSON
-  def get_events(id)
+  def get_events(name)
+    id = legislator_id(name)
+
     # Get votes
     votes = JSON.parse(get_votes(id))
     votearray = Array.new
