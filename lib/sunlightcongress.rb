@@ -83,10 +83,8 @@ class SunlightCongress
 
   # Get all events (hearings, votes, bills, amendments, floor updates) for a congressperson and output JSON
   def get_events(name)
-    id = legislator_id(name)
-
     # Get votes
-    votes = JSON.parse(get_votes(id))
+    votes = JSON.parse(get_votes(name))
     votearray = Array.new
     votes.each do |v|
       savehash = Hash.new
@@ -101,7 +99,7 @@ class SunlightCongress
     end
     
     # Get amendments
-    amendments = JSON.parse(get_amendments(id))
+    amendments = JSON.parse(get_amendments(name))
     amendmentarray = Array.new
     amendments.each do |a|
       savehash = Hash.new
@@ -116,7 +114,7 @@ class SunlightCongress
     end
 
     # Get bills
-    bills = JSON.parse(get_bills(id))
+    bills = JSON.parse(get_bills(name))
     billarray = Array.new
     bills.each do |b|
       savehash = Hash.new
@@ -131,7 +129,7 @@ class SunlightCongress
     end
     
     # Get updates
-    updates = JSON.parse(get_updates(id))
+    updates = JSON.parse(get_updates(name))
     updatearray = Array.new
     updates.each do |u|
       savehash = Hash.new
@@ -146,7 +144,7 @@ class SunlightCongress
     end
     
     # Get hearings
-    hearings = JSON.parse(get_hearings_json(get_committees(id)))
+    hearings = JSON.parse(get_hearings_json(get_committees(name)))
     hearingarray = Array.new
     hearings.each do |h|
       savehash = Hash.new

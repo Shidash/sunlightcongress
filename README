@@ -8,11 +8,11 @@ s = SunlightCongress.new("apikey")
 
 Methods-
 legislator_id("name of congressperson"): Get the id # for a legislator
-get_votes(legislator id): Get all of a legislator's votes
-get_amendments(legislator id): Get all amendments proposed by a legislator
-get_bills(legislator id): Get all bills sponsored by a legislator
-get_updates(legislator id): Get all updates where a legislator is mentioned
-get_committees(legislator id): Get all committees a legislator is on
-get_hearings(committee id): Get all hearings for a particular committee
+get_votes(legislator name): Get all of a legislator's votes
+get_amendments(legislator name): Get all amendments proposed by a legislator
+get_bills(legislator name): Get all bills sponsored by a legislator
+get_updates(legislator name): Get all updates where a legislator is mentioned
+get_committees(legislator name): Get all committees a legislator is on
+get_hearings(committee name): Get all hearings for a particular committee
 get_hearings_json(json with committee info): Get all hearings for committees with their id in the json (works well with get_committees)
-get_events(legilsator id): Get all votes, amendments, bills, updates, and hearings for a legislator
+get_events(legilsator name): Get all votes, amendments, bills, updates, and hearings for a legislator
