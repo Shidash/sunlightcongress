@@ -83,6 +83,8 @@ class SunlightCongress
 
   # Get all events (hearings, votes, bills, amendments, floor updates) for a congressperson and output JSON
   def get_events(name)
+    id = legislator_id(name)
+
     # Get votes
     votes = JSON.parse(get_votes(name))
     votearray = Array.new
